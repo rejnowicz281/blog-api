@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 
 const commentSchema = new Schema(
     {
+        author: {
+            type: String,
+            required: true,
+            maxlength: 100,
+        },
         body: {
             type: String,
             required: true,
