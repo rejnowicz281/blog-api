@@ -13,6 +13,8 @@ exports.index = asyncHandler(async (req, res) => {
         createdAt: -1,
     });
 
+    if (!comments) return res.status(404).json({ message: "Comments not found" });
+
     res.json(comments);
 });
 
@@ -20,6 +22,8 @@ exports.show = asyncHandler(async (req, res) => {
     const id = req.params.id;
 
     const comment = await Comment.findById(id);
+
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
 
     res.json(comment);
 });
@@ -38,6 +42,8 @@ exports.destroy = asyncHandler(async (req, res) => {
     const id = req.params.id;
 
     const comment = await Comment.findByIdAndDelete(id);
+
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
 
     res.json({ message: "Successful Delete", comment });
 });

@@ -17,6 +17,8 @@ exports.show = asyncHandler(async (req, res) => {
 
     const blog = await Blog.findById(id);
 
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
     res.json(blog);
 });
 
@@ -33,13 +35,17 @@ exports.update = asyncHandler(async (req, res) => {
 
     const blog = await Blog.findByIdAndUpdate(id, req.body, { new: true });
 
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
     res.json({ message: "Successful Update", blog });
 });
 
 exports.destroy = asyncHandler(async (req, res) => {
     const id = req.params.id;
 
-    await Blog.findByIdAndDelete(id);
+    const blog = await Blog.findByIdAndDelete(id);
+
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
 
     res.json({ message: "Successful Destroy", id });
 });
