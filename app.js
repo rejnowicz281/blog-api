@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const createError = require("http-errors");
 const mongoose = require("mongoose");
 
-const blogRouter = require("./routes/blogs");
+const postRouter = require("./routes/posts");
 
 const app = express();
 
@@ -45,9 +45,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // routes
 app.get("/", (req, res) => {
-    res.redirect("/blogs");
+    res.redirect("/posts");
 });
-app.use("/blogs", blogRouter);
+app.use("/posts", postRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

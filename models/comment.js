@@ -14,9 +14,9 @@ const commentSchema = new Schema(
             required: true,
             maxlength: 10000,
         },
-        blog: {
+        post: {
             type: Schema.Types.ObjectId,
-            ref: "Blog",
+            ref: "Post",
             required: true,
         },
     },
@@ -25,7 +25,7 @@ const commentSchema = new Schema(
 
 // Virtual for comment's URL
 commentSchema.virtual("url").get(function () {
-    return `/blogs/${this.blog}/comments/${this._id}`;
+    return `/posts/${this.post}/comments/${this._id}`;
 });
 
 // Export model

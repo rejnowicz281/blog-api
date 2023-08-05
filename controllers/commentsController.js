@@ -7,9 +7,9 @@ const asyncHandler = require("../asyncHandler");
 const Comment = require("../models/comment");
 
 exports.index = asyncHandler(async (req, res) => {
-    const blogId = req.params.blogId;
+    const postId = req.params.postId;
 
-    const comments = await Comment.find({ blog: blogId }).sort({
+    const comments = await Comment.find({ post: postId }).sort({
         createdAt: -1,
     });
 
@@ -29,9 +29,9 @@ exports.show = asyncHandler(async (req, res) => {
 });
 
 exports.create = asyncHandler(async (req, res) => {
-    const blogId = req.params.blogId;
+    const postId = req.params.postId;
 
-    const comment = new Comment({ ...req.body, blog: blogId });
+    const comment = new Comment({ ...req.body, post: postId });
 
     await comment.save();
 

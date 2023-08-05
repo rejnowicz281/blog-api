@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const blogSchema = new Schema(
+const postSchema = new Schema(
     {
         title: {
             type: String,
@@ -18,10 +18,10 @@ const blogSchema = new Schema(
     { timestamps: true }
 );
 
-// Virtual for blog's URL
-blogSchema.virtual("url").get(function () {
-    return `/blog/${this._id}`;
+// Virtual for post's URL
+postSchema.virtual("url").get(function () {
+    return `/post/${this._id}`;
 });
 
 // Export model
-module.exports = mongoose.model("Blog", blogSchema);
+module.exports = mongoose.model("Post", postSchema);
