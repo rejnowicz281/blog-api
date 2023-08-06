@@ -14,6 +14,11 @@ const postSchema = new Schema(
             required: true,
             maxlength: 10000,
         },
+        status: {
+            type: String,
+            enum: ["Draft", "Public"],
+            default: "Draft",
+        },
     },
     { timestamps: true }
 );
