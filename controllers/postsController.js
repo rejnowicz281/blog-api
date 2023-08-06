@@ -12,12 +12,12 @@ exports.index = asyncHandler(async (req, res) => {
     res.json(posts);
 });
 
-exports.show = asyncHandler(async (req, res) => {
+exports.show = asyncHandler(async (req, res, next) => {
     const id = req.params.id;
 
     const post = await Post.findById(id);
 
-    if (!post) return res.status(404).json({ message: "Post not found" });
+    if (!post) return next(new Error("Post not found"));
 
     res.json(post);
 });
@@ -35,7 +35,7 @@ exports.update = asyncHandler(async (req, res) => {
 
     const post = await Post.findByIdAndUpdate(id, req.body, { new: true });
 
-    if (!post) return res.status(404).json({ message: "Post not found" });
+    if (!post) return next(new Error("Post not found"));
 
     res.json({ message: "Successful Update", post });
 });
@@ -45,7 +45,7 @@ exports.destroy = asyncHandler(async (req, res) => {
 
     const post = await Post.findByIdAndDelete(id);
 
-    if (!post) return res.status(404).json({ message: "Post not found" });
+    if (!post) return next(new Error("Post not found"));
 
     res.json({ message: "Successful Destroy", id });
 });
