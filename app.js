@@ -7,6 +7,7 @@ const express = require("express");
 const helmet = require("helmet");
 const createError = require("http-errors");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/posts");
@@ -34,6 +35,7 @@ mongoose
 require("./passportConfig");
 
 // middleware and static files
+app.use(cors());
 app.use(compression());
 app.use(helmet());
 app.use(express.json());
