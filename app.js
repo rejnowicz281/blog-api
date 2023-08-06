@@ -1,6 +1,4 @@
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
-}
+if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 // const rateLimit = require("express-rate-limit");
 const compression = require("compression");
@@ -10,6 +8,7 @@ const helmet = require("helmet");
 const createError = require("http-errors");
 const mongoose = require("mongoose");
 
+const authRouter = require("./routes/auth");
 const postRouter = require("./routes/posts");
 
 const app = express();
@@ -31,6 +30,9 @@ mongoose
         logger(err);
     });
 
+// passport config
+require("./passportConfig");
+
 // middleware and static files
 app.use(compression());
 app.use(helmet());
@@ -48,6 +50,7 @@ app.get("/", (req, res) => {
     res.redirect("/posts");
 });
 app.use("/posts", postRouter);
+app.use(authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
