@@ -13,8 +13,9 @@ exports.index = asyncHandler(async (req, res) => {
         createdAt: -1,
     });
 
-    if (!comments) return res.status(404).json({ message: "Comments not found" });
+    if (!comments) return next(new Error("Comments not found"));
 
+    logger(comments);
     res.json(comments);
 });
 
@@ -23,8 +24,9 @@ exports.show = asyncHandler(async (req, res) => {
 
     const comment = await Comment.findById(id);
 
-    if (!comment) return res.status(404).json({ message: "Comment not found" });
+    if (!comment) return next(new Error("Comment not found"));
 
+    logger(comment);
     res.json(comment);
 });
 
@@ -35,6 +37,7 @@ exports.create = asyncHandler(async (req, res) => {
 
     await comment.save();
 
+    logger(comment);
     res.json({ message: "Successful Create", comment });
 });
 
@@ -43,7 +46,8 @@ exports.destroy = asyncHandler(async (req, res) => {
 
     const comment = await Comment.findByIdAndDelete(id);
 
-    if (!comment) return res.status(404).json({ message: "Comment not found" });
+    if (!comment) return next(new Error("Comment not found"));
 
+    logger(comment);
     res.json({ message: "Successful Delete", comment });
 });

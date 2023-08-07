@@ -9,6 +9,7 @@ const Post = require("../models/post");
 exports.index = asyncHandler(async (req, res) => {
     const posts = await Post.find().sort({ createdAt: -1 });
 
+    logger(posts);
     res.json(posts);
 });
 
@@ -19,6 +20,7 @@ exports.show = asyncHandler(async (req, res, next) => {
 
     if (!post) return next(new Error("Post not found"));
 
+    logger(post);
     res.json(post);
 });
 
@@ -27,6 +29,7 @@ exports.create = asyncHandler(async (req, res) => {
 
     await post.save();
 
+    logger(post);
     res.json({ message: "Successful Create", post });
 });
 
@@ -37,6 +40,7 @@ exports.update = asyncHandler(async (req, res) => {
 
     if (!post) return next(new Error("Post not found"));
 
+    logger(post);
     res.json({ message: "Successful Update", post });
 });
 
@@ -47,5 +51,6 @@ exports.destroy = asyncHandler(async (req, res) => {
 
     if (!post) return next(new Error("Post not found"));
 
+    logger(post);
     res.json({ message: "Successful Destroy", id });
 });

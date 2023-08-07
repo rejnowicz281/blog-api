@@ -1,4 +1,7 @@
 const jwt = require("jsonwebtoken");
+const debug = require("debug");
+
+const logger = debug("app:authController");
 
 const asyncHandler = require("../asyncHandler");
 
@@ -8,6 +11,10 @@ exports.login = asyncHandler(async (req, res, next) => {
             expiresIn: "1h",
         });
 
+        logger(token);
         return res.json({ token });
-    } else throw new Error("Incorrect password");
+    } else {
+        logger("Incorrect password");
+        throw new Error("Incorrect password");
+    }
 });
