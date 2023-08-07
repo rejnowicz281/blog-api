@@ -5,6 +5,7 @@ const logger = debug("app:postsController");
 const asyncHandler = require("../asyncHandler");
 
 const Post = require("../models/post");
+const Comment = require("../models/comment");
 
 exports.index = asyncHandler(async (req, res) => {
     const posts = await Post.find().sort({ createdAt: -1 });
@@ -50,6 +51,8 @@ exports.destroy = asyncHandler(async (req, res) => {
     const post = await Post.findByIdAndDelete(id);
 
     if (!post) return next(new Error("Post not found"));
+
+    await Comment.deleteMany({ post: id });
 
     logger(post);
     res.json({ message: "Successful Destroy", id });
