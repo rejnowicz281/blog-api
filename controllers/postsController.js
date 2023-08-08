@@ -37,7 +37,7 @@ exports.create = [
         .isIn(["Draft", "Public"])
         .escape()
         .withMessage("Valid post status is required"),
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
 
@@ -59,7 +59,7 @@ exports.update = [
         .isIn(["Draft", "Public"])
         .escape()
         .withMessage("Valid post status is required"),
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
 
@@ -74,7 +74,7 @@ exports.update = [
     }),
 ];
 
-exports.destroy = asyncHandler(async (req, res) => {
+exports.destroy = asyncHandler(async (req, res, next) => {
     const id = req.params.id;
 
     const post = await Post.findByIdAndDelete(id);
