@@ -32,7 +32,7 @@ exports.create = [
     body("title", "Post title must not be empty").trim().isLength({ min: 1, max: 100 }).escape(),
     body("body", "Post body must not be empty").trim().isLength({ min: 1, max: 10000 }).escape(),
     body("status")
-        .optional({ checkFalsy: true })
+        .optional({ nullable: true })
         .trim()
         .isIn(["Draft", "Public"])
         .escape()
@@ -54,7 +54,7 @@ exports.update = [
     body("title", "Post title must not be empty").trim().isLength({ min: 1, max: 100 }).escape(),
     body("body", "Post body must not be empty").trim().isLength({ min: 1, max: 10000 }).escape(),
     body("status")
-        .optional({ checkFalsy: true })
+        .optional({ nullable: true })
         .trim()
         .isIn(["Draft", "Public"])
         .escape()
