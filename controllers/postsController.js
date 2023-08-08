@@ -31,7 +31,12 @@ exports.create = [
     // Set up validators - title must not be empty and max length of 100, body must not be empty and max length of 10000, status is required and must be eithed "Draft" or "Published"
     body("title", "Post title must not be empty").trim().isLength({ min: 1, max: 100 }).escape(),
     body("body", "Post body must not be empty").trim().isLength({ min: 1, max: 10000 }).escape(),
-    body("status", "Valid post status is required").trim().isIn(["Draft", "Published"]).escape(),
+    body("status")
+        .optional({ checkFalsy: true })
+        .trim()
+        .isIn(["Draft", "Public"])
+        .escape()
+        .withMessage("Valid post status is required"),
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
@@ -48,7 +53,12 @@ exports.create = [
 exports.update = [
     body("title", "Post title must not be empty").trim().isLength({ min: 1, max: 100 }).escape(),
     body("body", "Post body must not be empty").trim().isLength({ min: 1, max: 10000 }).escape(),
-    body("status", "Valid post status is required").trim().isIn(["Draft", "Published"]).escape(),
+    body("status")
+        .optional({ checkFalsy: true })
+        .trim()
+        .isIn(["Draft", "Public"])
+        .escape()
+        .withMessage("Valid post status is required"),
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
