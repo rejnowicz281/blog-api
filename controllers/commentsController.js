@@ -6,6 +6,8 @@ const asyncHandler = require("../asyncHandler");
 
 const Comment = require("../models/comment");
 
+const { body, validationResult } = require("express-validator");
+
 exports.index = asyncHandler(async (req, res) => {
     const postId = req.params.postId;
 
@@ -30,18 +32,30 @@ exports.show = asyncHandler(async (req, res) => {
     res.json(comment);
 });
 
-exports.create = asyncHandler(async (req, res) => {
-    const postId = req.params.postId;
+exports.create = [
+    body("author", "Comment author must not be empty").trim().isLength({ min: 1, max: 100 }).escape(),
+    body("body", "Comment body must not be empty").trim().isLength({ min: 1, max: 10000 }).escape(),
+    asyncHandler(async (req, res) => {
+        const errors = validationResult(req);
 
-    const comment = new Comment({ ...req.body, post: postId });
+        if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
 
-    await comment.save();
+        const postId = req.params.postId;
 
-    logger(comment);
-    res.json({ message: "Successful Create", comment });
-});
+        const comment = new Comment({ ...req.body, post: postId });
+
+        await comment.save();
+
+        logger(comment);
+        res.json({ message: "Successful Create", comment });
+    }),
+];
 
 exports.destroy = asyncHandler(async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+
     const id = req.params.id;
 
     const comment = await Comment.findByIdAndDelete(id);
