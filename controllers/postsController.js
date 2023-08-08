@@ -16,6 +16,14 @@ exports.index = asyncHandler(async (req, res) => {
     res.json(posts);
 });
 
+exports.publicIndex = asyncHandler(async (req, res) => {
+    const posts = await Post.find({ status: "Public" }).sort({ createdAt: -1 });
+
+    logger("Public Post Index successful");
+
+    res.json(posts);
+});
+
 exports.show = asyncHandler(async (req, res, next) => {
     const id = req.params.id;
 
