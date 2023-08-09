@@ -35,6 +35,17 @@ exports.show = asyncHandler(async (req, res, next) => {
     res.json(post);
 });
 
+exports.publicShow = asyncHandler(async (req, res, next) => {
+    const id = req.params.id;
+
+    const post = await Post.findOne({ _id: id, status: "Public" });
+
+    if (!post) return next(new Error("Post not found"));
+
+    logger(post);
+    res.json(post);
+});
+
 exports.create = [
     body("title", "Post title must not be empty").trim().isLength({ min: 1, max: 100 }).escape(),
     body("body", "Post body must not be empty").trim().isLength({ min: 1, max: 10000 }).escape(),
