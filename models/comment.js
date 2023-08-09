@@ -20,7 +20,7 @@ const commentSchema = new Schema(
             required: true,
         },
     },
-    { timestamps: true }
+    { timestamps: { createdAt: true, updatedAt: false } }
 );
 
 // Virtual for comment's URL

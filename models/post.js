@@ -20,7 +20,7 @@ const postSchema = new Schema(
             default: "Draft",
         },
     },
-    { timestamps: true }
+    { timestamps: { createdAt: true, updatedAt: false } }
 );
 
 // Virtual for post's URL
