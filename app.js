@@ -17,7 +17,7 @@ const app = express();
 const logger = debug("app:db");
 
 // connect to mongodb && listen for requests
-const URI = process.env.MONGOD_URI || "mongodb://localhost:27017/blog";
+const URI = process.env.MONGOD_URI;
 
 mongoose
     .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
